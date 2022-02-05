@@ -1,0 +1,22 @@
+---
+- name: HTTPD Book
+  hosts: web-servers
+  remote_user: root
+  become: true
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  - name: Install HTTPD server on target servers
+    yum:
+      name: httpd
+      state: latest
+
+  - name: start HTTPD service on target servers
+    service:
+            name: httpd
+            state: started
+
+  - name: create basic index.html file in the apache root dir
+    copy:
+         content: " This is Technoconfig Test Page"
+         dest: /var/www/html/index.html
